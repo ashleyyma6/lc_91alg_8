@@ -10,8 +10,16 @@
     - IF not in words: update left to next unit
 ### Code
 
-```python
+```java
 
+public List<Integer> findSubstring(String s, String[] words) {
+        int word_unit = words[0].length();
+        int left = -1;
+        int right =  0;
+        for(int right = 0; right<s.length(); right++){
+            
+        }
+    }
 
 ```
 
