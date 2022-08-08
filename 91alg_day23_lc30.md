@@ -1,29 +1,57 @@
 ### Idea
-- Find the length of word, as unit
-- Left & right pointer, move right pointer
-- Hash table {word: start index}
-- Move right pointer, If current unit word is in words, update left pointer, right pointer keep move:
-  - meet a new word, check if in words & hash table:
-    - If in words & not in hash table: add to hash table
-      - if the key set size = the size of words, meet all three, push left pointer to result arr, update left to next unit meet
-    - If in words & in hash table: word repeat - left update to the next unit of previous one
-    - IF not in words: update left to next unit
+
+- Find the length of word, as unit, the length of the string composed of words
+- Two Hash tables {word: frequency}
+- Count the word in words and its appearance times
+- One pointer to mark the start of the string, an inner pointer to check words in the string, count appearance times
+  - Break when meet word not in words, when appearance time exceeds
+  - Add result when the substring length match target length
+
 ### Code
 
 ```java
 
-public List<Integer> findSubstring(String s, String[] words) {
-        int word_unit = words[0].length();
-        int left = -1;
-        int right =  0;
-        for(int right = 0; right<s.length(); right++){
-            
+ HashMap<String, Integer> count_words = new HashMap<>();
+        for(String word:words){
+            if(count_words.containsKey(word)){
+                count_words.replace(word, count_words.get(word)+1);
+            }else{
+                count_words.put(word,1);
+            }
         }
+
+        int word_unit = words[0].length();
+        int string_length = word_unit * words.length;
+
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for(int i = 0; i<s.length()-string_length+1;i++){
+            HashMap<String, Integer> count = new HashMap<>();
+            for(int j = i; j<i+string_length;j+=word_unit){
+                String current_word = s.substring(j,j+word_unit);
+                if(!count_words.containsKey(current_word)){
+                    break;
+                }else{
+                     if(count.containsKey(current_word)){
+                        count.replace(current_word, count.get(current_word)+1);
+                        if(count.get(current_word) > count_words.get(current_word)){
+                            break;
+                        }
+                    }else{
+                        count.put(current_word,1);
+                    }
+                    if((j-i)==(string_length-word_unit)){
+                        result.add(i);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
 ```
 
 **Complexity Analysis**
 
-- Time Complexity:
-- Space Complexity:
+- Time Complexity: O(mn) // m = s.length, n = words.length
+- Space Complexity: O(n)
