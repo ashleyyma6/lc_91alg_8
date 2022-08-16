@@ -1,4 +1,5 @@
 ### Idea
+<<<<<<< HEAD
 - BFS
 - A dictionary to put person and a list of people dislikes
 - Traverse 2D array dislikes to fill the dictionary, create a relationship enrty for everyone
@@ -55,7 +56,6 @@
         return true;
         
     }
-
 
 ```
 
